@@ -1,0 +1,188 @@
+@font-face {
+  font-family: magnolia;
+  src: url("../src/assets/fonts/magnolia_sky.ttf");
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+
+  font-family: "Roboto", sans-serif;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* my styles */
+.row {
+  display: flex;
+}
+
+.navbar {
+  width: 100%;
+
+  padding: 1em 3.5em;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav--left {
+  align-items: center;
+}
+
+.nav--left > p {
+  font-family: "magnolia";
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.nav--right {
+  align-items: center;
+  gap: 1em;
+
+  color: #301934;
+  font-weight: 500;
+}
+
+.signup {
+  background-color: #301934;
+  color: white;
+
+  border-radius: 8px;
+  padding: 0.4em 1.8em;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.about,
+.signin,
+.signup {
+  letter-spacing: 1px;
+}
+
+.container--1 {
+  padding: 4em 1em;
+  max-width: 75%;
+
+  margin: 0 auto;
+
+  line-height: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing--phrase,
+.landing--phrase__2 {
+  font-size: 1.5rem;
+
+  text-align: center;
+}
+
+.span--logo {
+  font-family: "magnolia";
+}
+.container--2 {
+  justify-content: center;
+  gap: 5em;
+}
+
+.image--1,
+.image--2,
+.image--3,
+.image--4,
+.image--5 {
+  max-width: 13%;
+}
+
+.landing--image {
+  border-radius: 10px;
+}
+
+.m-top--min {
+  margin-top: 3em;
+}
+
+.m-top--5 {
+  margin-top: 6em;
+}
+
+.m-top--10 {
+  margin-top: 10em;
+}
+
+/* media */
+
+@media (max-width: 850px) {
+  .navbar {
+    display: flex;
+    justify-content: center;
+  }
+  .container--1 {
+    max-width: 100%;
+    height: 100vh;
+  }
+  .container--2,
+  .nav--right {
+    display: none;
+  }
+}
+
+/* DEBUGGING TOOL */
+* {
+  /* outline: 1px solid #f00 !important; */
+}
