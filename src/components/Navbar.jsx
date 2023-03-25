@@ -4,12 +4,12 @@ function Navbar() {
   return (
     <div className="navbar">
         <div className="nav--left row">
-            <p>SnapInspire</p>
+            <a href='/'>SnapInspire</a>
         </div>
         <div className="nav--right row">
-            <p className="about">About</p>
-            <p className="signin">Signin</p>
-            <p className="signup">signup</p>
+            <a className="about">About</a>
+            <a href='/signin' className="signin">Signin</a>
+            <a href='/signup' className="signup">signup</a>
         </div>
     </div>
     )

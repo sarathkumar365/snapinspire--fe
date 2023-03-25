@@ -48,6 +48,10 @@ a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
+a {
+  all: unset;
+}
+
 /* Make images easier to work with */
 img,
 picture {
@@ -81,10 +85,14 @@ select {
   align-items: center;
 }
 
-.nav--left > p {
+.nav--left > a {
   font-family: "magnolia";
   font-weight: 500;
   font-size: 1.5rem;
+}
+
+.nav--left > a:hover {
+  cursor: pointer;
 }
 
 .nav--right {
@@ -165,6 +173,106 @@ select {
   margin-top: 10em;
 }
 
+.signup {
+  background-color: #301934;
+  color: #ffffff;
+  border: none;
+  /* border-radius: 5px; */
+  /* padding: 10px 20px; */
+  /* font-size: 16px; */
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.signup:hover {
+  background-color: #4f2a4f;
+}
+
+.signin:hover,
+.about:hover {
+  cursor: pointer;
+  opacity: 75%;
+}
+
+.bounce--up {
+  animation: bounce--up 2.3s ease-in-out infinite;
+}
+
+@keyframes bounce--up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.bounce--down {
+  animation: bounce--down 2.3s ease-in-out infinite;
+}
+
+@keyframes bounce--down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+}
+
+.glow {
+  position: relative;
+}
+
+.glow::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  animation: glow 2.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0% {
+    transform: translateX(-50%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.glow--reverse::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  animation: glow--reverse 2.5s ease-in-out infinite;
+}
+
+@keyframes glow--reverse {
+  0% {
+    transform: translateX(50%);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
 /* media */
 
 @media (max-width: 850px) {
@@ -177,8 +285,12 @@ select {
     height: 100vh;
   }
   .container--2,
-  .nav--right {
+  .about {
     display: none;
+  }
+
+  .signin {
+    margin-left: 2em;
   }
 }
 
