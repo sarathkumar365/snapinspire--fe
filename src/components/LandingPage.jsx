@@ -1,11 +1,11 @@
 import React from 'react'
 import { useEffect,useState } from 'react'
 import Navbar from './Navbar'
-import img from '../resourses/images/optimized/8.webp'
-import img2 from '../resourses/images/optimized/6.webp'
-import img3 from '../resourses/images/optimized/9.webp'
-import img4 from '../resourses/images/optimized/3.webp'
-import img5 from '../resourses/images/optimized/5.webp'
+import img from '../resourses/images/8.webp'
+import img2 from '../resourses/images/6.webp'
+import img3 from '../resourses/images/9.webp'
+import img4 from '../resourses/images/3.webp'
+import img5 from '../resourses/images/5.webp'
 
 function LandingPage() {
   return (
