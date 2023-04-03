@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik'
+import * as yup from 'yup';
+import api from '../API/api';
 
+import ErrorComponent from './ErrorComponent';
 import img from '../resourses/images/9.webp'
 
 function SignupComponent() {
+
+  const navigate = useNavigate()
+  
+  const [errFound,seterrFound  ] = useState([])
+
+  const handleCreateUser = async (values) => {
+
+    try {
+      const userCreated = await api.post('/users',values)
+      if(userCreated.status === 200) navigate('/signin')
+    } catch (error) {
+      seterrFound(oldErrs => {
+        return [...oldErrs, error.response]
+      })
+    }
+  } 
 
   // formik
   const formik = useFormik({
@@ -13,11 +33,25 @@ function SignupComponent() {
       password:''
     },
 
+    // Validate form values
+    validationSchema: yup.object({
+      name: yup.string().required('Name is required').max(15, 'Name must be 15 characters or less'),
+      email: yup.string().email('Invalid email').required('Email is required')
+    }),
+
     // submit form
     onSubmit:(values) => {
-      console.log(values)
+      handleCreateUser(values)
     }
   })
+
+  const errName  = {
+    color:formik.touched.name && formik.errors.name ? '#e21818' : ''
+  }
+
+  const errEmail  = {
+    color:formik.touched.email && formik.errors.email ? '#e21818' : ''
+  }
 
   
   return (
@@ -32,17 +66,30 @@ function SignupComponent() {
             <div className="login__phrase--div">
                 <p className="login__phrase">Signup</p>
             </div>
+            
+            {errFound ? <ErrorComponent errData = {errFound}/> : ''}
+
             <form onSubmit={formik.handleSubmit} className='login--form'>
               {/* <div className="login--box"> */}
                 <div className="name--input form__group">
-                  <input placeholder='name' type="text" value={formik.values.name} onChange={formik.handleChange} 
+                  <input placeholder='name' type="text" value={formik.values.name} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
                   name="name" className='name--css form__field' required />
-                  <label htmlFor="name" className='form__label'>Name</label>
+                  <label htmlFor="name" style={errName} className='form__label'>
+                    {/* Name */}
+                    {formik.touched.name && formik.errors.name ? formik.errors.name : 'Name'}
+                    </label>
                 </div>
                 <div className="name--input form__group">
-                  <input placeholder='email' type="email" value={formik.values.email} onChange={formik.handleChange}
+                  <input placeholder='email' type="email" value={formik.values.email} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                    name="email" className='email--css form__field' required />
-                  <label htmlFor="Email" className='form__label'>Email</label>
+                  <label htmlFor="Email" style={errEmail} className='form__label'>
+                    {/* Email */}
+                    {formik.touched.email && formik.errors.email ? formik.errors.email : 'Email'}
+                    </label>
                 </div>
                 <div className="pass--input form__group">
                   <input placeholder='password' type="password" value={formik.values.password} onChange={formik.handleChange}
@@ -55,7 +102,7 @@ function SignupComponent() {
                 </div>
               {/* </div> */}
             </form>
-      </div>
+      </div>      
     </div>
     )
 
