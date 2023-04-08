@@ -1,4 +1,8 @@
 import React from 'react'
+import { useContext } from "react";
+import AuthContext from '../context/AuthProvider';
+import axios from 'axios';
+
 import  { useEffect,useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import api from '../API/api';
@@ -7,9 +11,13 @@ import * as yup from 'yup';
 
 import ErrorComponent from './ErrorComponent';
 import img from '../resourses/images/3.webp'
+const BASE_URL = 'http://localhost:3000'
 
 
 function SigninComponent() {
+
+  const {setAuth} = useContext(AuthContext)
+  const {auth} = useContext(AuthContext)
 
   const navigate = useNavigate();
 
@@ -17,16 +25,25 @@ function SigninComponent() {
 
   const handleSignin = async (userDetails) => {
     try {
-      const userCreated = await api.post('/auth/login',userDetails)
-      console.log(userCreated);
-      if(userCreated.status === 200) navigate('/home')
-    } catch (error) {
-      console.log(error);
-      seterrFound(oldErrs => {
-        return [...oldErrs, error.response]
+      const loggedIn = await axios.post(`${BASE_URL}/auth/login`,userDetails,{
+        headers: {
+          'Content-Type': 'application/json',
+          withCredentials: true
+        }
       })
+      setAuth({
+        accessToken: loggedIn.data.token,
+        name: loggedIn.data.userName
+      })
+      if(loggedIn.status === 200) navigate('/home')
+    } catch (error) {
+      // console.log(error);
+      seterrFound(error.response.data.message)
     }
   } 
+
+  // console.log(auth);
+
 
   // formik
   const formik = useFormik({
@@ -55,6 +72,8 @@ function SigninComponent() {
     color:formik.touched.email && formik.errors.email ? '#e21818' : ''
   }
 
+  // console.log(auth);
+
   return (
     <div className="signup--container">
         <div className="signup--left">
@@ -67,20 +86,12 @@ function SigninComponent() {
             <div className="login__phrase--div">
                 <p className="login__phrase">Signin</p>
             </div>
+
             {errFound ? <ErrorComponent errData = {errFound}/> : ''}
 
             <form onSubmit={formik.handleSubmit} className='login--form'>
-              {/* <div className="login--box"> */}
-                {/* <div className="name--input form__group">
-                  <input placeholder='email' type="email" name="email" className='email--css form__field' required />
-                  <label htmlFor="Email" className='form__label'>Email</label>
-                </div>
-                <div className="pass--input form__group">
-                  <input placeholder='password' type="password" name="password" className='password--css form__field' required />
-                  <label htmlFor="password" className='form__label'>Password</label>
-                </div> */}
                 <div className="name--input form__group">
-                  <input placeholder='email' type="email" value={formik.values.email} 
+                  <input placeholder='email' autoComplete='off' type="email" value={formik.values.email} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                    name="email" className='email--css form__field' required />
