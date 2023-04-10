@@ -86,12 +86,6 @@ input:-autofill::first-line {
   font-size: 16px;
 }
 
-/* ERROR CSS */
-.errors {
-  display: block;
-  color: #e21818;
-}
-
 /* my styles */
 .row {
   display: flex;

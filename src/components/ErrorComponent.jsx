@@ -1,4 +1,6 @@
 import React from 'react'
+import './CSS/errorComponent.css'
+import error from '../resourses/svg/error.svg'
 
 function ErrorComponent(props) {
 
@@ -7,7 +9,15 @@ function ErrorComponent(props) {
 
   return (
     <div className="errors">
-        {errsArray}
+        {
+          errsArray.length > 0 ?  <div className="err-icon">
+                                    <img src={error} alt="error" />
+                                  </div> : ''
+        }
+
+        <div className="errors--list">
+          {errsArray}
+        </div>
     </div>
   )
 }

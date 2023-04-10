@@ -121,14 +121,13 @@ function SigninComponent() {
               if (error.response) {
           console.log(error.response.data);
           console.log(error.response.status);
-          if(error.response.status === 500 ) navigate('/signin')
           console.log(error.response.headers);
         } else if (error.request) {
           http.ClientRequest in node.js
           console.log(error.request);
         } else {
           console.log('Error', error.message);
-        }
+        } 
     }
   }
 
