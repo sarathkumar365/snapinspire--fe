@@ -15,14 +15,7 @@ function SignupComponent() {
 
   const handleCreateUser = async (values) => {
 
-    try {
-      const userCreated = await api.post('/users',values)
-      if(userCreated.status === 200) navigate('/signin')
-    } catch (error) {
-      seterrFound(oldErrs => {
-        return [...oldErrs, error.response]
-      })
-    }
+    console.log('handle create user', values);
   } 
 
   // formik

@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import AuthContext from '../context/AuthProvider'
 import ProfileComponent from './ProfileComponent'
 
+
 function Navbar() {
     const { auth } = useContext(AuthContext)
 
@@ -12,6 +13,7 @@ function Navbar() {
             <a href='/'>SnapInspire</a>
         </div>
         <div className="nav--right row">
+
             {
                 auth?.name ? <ProfileComponent/> : 
                     <>

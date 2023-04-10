@@ -269,6 +269,28 @@ input:-autofill::first-line {
   }
 }
 
+.viewall {
+  margin-top: 2em;
+
+  padding: 0.2em 1em;
+  border-radius: 8px;
+
+  color: #301934;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  text-decoration: underline;
+
+  border: 1px solid #301934;
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.viewall:hover {
+  background-color: #301934;
+  color: #ffffff;
+  text-decoration: none;
+}
+
 /* signup STYLES */
 
 /*  */

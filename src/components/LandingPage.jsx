@@ -16,6 +16,7 @@ function LandingPage() {
         <section className='container--1'>
           <p className="landing--phrase">"Enter the world of <span className='span--logo'>SnapInspire</span>"</p> 
           <p className='landing--phrase__2'>Where high-quality, inspiring, and mysterious images await. Explore now and ignite your creativity.</p>
+          <a href='/home' className="viewall">View All</a> 
         </section>
         <section className='container--2 row'>
           <div className="image--1 m-top--min bounce--up ">
