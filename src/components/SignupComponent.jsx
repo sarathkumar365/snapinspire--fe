@@ -13,9 +13,59 @@ function SignupComponent() {
   
   const [errFound,seterrFound  ] = useState([])
 
-  const handleCreateUser = async (values) => {
+  const handleCreateUser = async (newUserDetails) => {
 
-    console.log('handle create user', values);
+    try {
+      // {withCredentials: true, credentials: 'include'}
+      const signupResponse = await api.post('/users', newUserDetails)
+
+      // if succcess navigate to the signin page
+      if (signupResponse.status === 201)  navigate('/signin')
+
+    } catch (error) {
+
+      if (error.response) {
+        // fill in the error state with Unauthorized error message
+        if(error.response.status === 409) seterrFound(prevErrs => {
+
+          // if same error exists, then return
+          if(prevErrs.includes(error.response.data.message)) {
+            return prevErrs
+          }
+          
+          // else add new error to the error list
+          return [...prevErrs, error.response.data.message]
+        })
+
+        if(error.response.status === 404) seterrFound(prevErrs => {
+
+          // if same error exists, then return
+          if(prevErrs.includes(error.response.data.message)) {
+            return prevErrs
+          }
+          
+          // else add new error to the error list
+          return [...prevErrs, error.response.data.message]
+        })
+
+        } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error);
+        console.log(error.config);
+
+        // set unknown error
+        seterrFound(prevErrs => {
+          return [...prevErrs, `oops that wasn't ment to happen, please try again!!! 😲`]
+        })
+
+        }
+
+        setAuth({
+          loggedIn:false,
+          name:null,
+          accessToken:null
+        })
+    }
   } 
 
   // formik
@@ -65,7 +115,7 @@ function SignupComponent() {
             <form onSubmit={formik.handleSubmit} className='login--form'>
               {/* <div className="login--box"> */}
                 <div className="name--input form__group">
-                  <input placeholder='name' type="text" value={formik.values.name} 
+                  <input autoFocus placeholder='name' type="text" value={formik.values.name} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur} 
                   name="name" className='name--css form__field' required />

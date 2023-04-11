@@ -27,11 +27,21 @@ function SigninComponent() {
       const signinResponse = await api.post('/auth/login', userDetails)
 
       // set auth state 
-      setAuth({
-        loggedIn:true,
-        name:signinResponse.data.userName,
-        accessToken:signinResponse.data.token
-      })
+      if(signinResponse.status === 200){
+        setAuth({
+          loggedIn:true,
+          name:signinResponse.data.userName,
+          accessToken:signinResponse.data.token
+        })
+
+        // navigate to home
+        navigate('/home')
+      } else {
+        // set unknown error
+        seterrFound(prevErrs => {
+          return [...prevErrs, `oops!!, please try again!!! 😲`]
+        })
+      }
 
     } catch (error) {
 
@@ -80,7 +90,7 @@ function SigninComponent() {
     }
   } 
 
-  console.log(auth);
+  // console.log(auth);
 
 
   // formik
@@ -131,6 +141,7 @@ function SigninComponent() {
     }
   }
 
+
   return (
     <div className="signup--container">
         <div className="signup--left">
@@ -148,7 +159,7 @@ function SigninComponent() {
 
             <form onSubmit={formik.handleSubmit} className='login--form'>
                 <div className="name--input form__group">
-                  <input placeholder='email' autoComplete='off' type="email" value={formik.values.email} 
+                  <input placeholder='email' autoComplete='off' autoFocus type="email" value={formik.values.email} 
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                    name="email" className='email--css form__field' required />
@@ -158,7 +169,7 @@ function SigninComponent() {
                     </label>
                 </div>
                 <div className="pass--input form__group">
-                  <input placeholder='password' type="password" value={formik.values.password} onChange={formik.handleChange}
+                  <input placeholder='password' autoComplete="off" type="password" value={formik.values.password} onChange={formik.handleChange}
                    name="password" className='password--css form__field' required />
                   <label htmlFor="password" className='form__label'>Password</label>
                 </div>
