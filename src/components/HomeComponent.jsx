@@ -12,6 +12,7 @@ import bookmarks from '../resourses/icons/bookmarks.jpg'
 
 import Navbar from './Navbar'
 import ErrorComponent from "./ErrorComponent"
+import { all } from 'axios';
 
 
 
@@ -35,6 +36,9 @@ function HomeComponent() {
                     authorization: `Bearer ${auth.accessToken}`
                 }
                 const allPosts = await API.get('/posts',{ headers })
+
+                // no posts found
+                if(typeof allPosts.data.data === 'string') console.log('Empty dataset from server');
                 console.log(allPosts); 
                 if(allPosts.data.data.length > 0) {
                     setallPosts(allPosts.data.data)
@@ -88,6 +92,8 @@ function HomeComponent() {
         const handleApplauds = async (imageId) => {
             console.log('handleApplauds', imageId);
         }
+
+        console.log(allPosts);
 
   return (
     <>
