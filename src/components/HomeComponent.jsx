@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useContext} from 'react'
+import axios from 'axios';
+import customAxios from '../API/api'
 import { useNavigate } from "react-router-dom";
-import API from '../API/api'
 import AuthContext from '../context/AuthProvider'
 
 import './CSS/homeComp.css'
@@ -12,7 +13,6 @@ import bookmarks from '../resourses/icons/bookmarks.jpg'
 
 import Navbar from './Navbar'
 import ErrorComponent from "./ErrorComponent"
-import { all } from 'axios';
 
 
 
@@ -26,41 +26,74 @@ function HomeComponent() {
 
     const {auth} = useContext(AuthContext)
 
+
+
     useEffect( () => {
+
+        const getNewAccessToken = async () => {
+            const headers = {
+                'Content-Type': 'application/json',
+                withCredentials:true,
+                authorization: `Bearer ${auth.accessToken}`
+            }
+            
+            const newAccessToken = await axios.get('http://localhost:3000/auth/getRefreshToken',{headers})
+
+            return newAccessToken
+        }
         
         const loadPosts = async () => {
+
             try {
+                // test for axios interaction
+                const requestHandler = async request => {
+
+                    console.log('request intercepted');
+                    
+                    if(!auth.accessToken) {
+                        const newAccessToken = await getNewAccessToken()
+                        console.log(newAccessToken);
+                    } 
+                    // request.headers.Authorization = `Bearer ${auth.accessToken}`;  
+                    return request;
+                };
+
+                const responseHandler = response => {
+                    console.log('response intercepted');
+                    if (response.status === 401) {
+                        window.location = '/signin';
+                    }
+                    return response;
+                };
+                
+                axios.interceptors.request.use((request) => requestHandler(request))
+                axios.interceptors.response.use((response) => responseHandler(response))
+
                 const headers = {
                     'Content-Type': 'application/json',
                     withCredentials:true,
                     authorization: `Bearer ${auth.accessToken}`
                 }
-                const allPosts = await API.get('/posts',{ headers })
+                // const allPosts = await customAxios.get('/posts',{headers})
+                const allPosts = await axios.get('http://localhost:3000/posts',{headers})
+
+                
+                
+                
 
                 // no posts found
-                if(typeof allPosts.data.data === 'string') console.log('Empty dataset from server');
-                console.log(allPosts); 
+                if(typeof allPosts.data.data === 'string') console.log('No posts to see here, try uploading yout favorites!!!');
+
                 if(allPosts.data.data.length > 0) {
                     setallPosts(allPosts.data.data)
                 }
     
             } catch (error) {
-                if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                // console.log(error.response.data);
-                // console.log(error.response.status);
-                if(error.response.status === 500 ) navigate('/signin')
-                // console.log(error.response.headers);
-                } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error with request', error.message);
+                console.log(error);
+                if(error.response.status === 401) {
+                    navigate('/signin')
                 }
-                console.log(error.config);
-                 // set unknown error
-                seterrFound(prevErrs => {
-                    return [...prevErrs, `oops that wasn't ment to happen, please try again!!! 😲`]
-                })
+                
             }
         }
     
@@ -68,6 +101,21 @@ function HomeComponent() {
     },[])
 
 
+    const test = async () => {
+        try {
+            const headers = {
+                'Content-Type': 'application/json',
+                withCredentials:true,
+                authorization: `Bearer ${auth.accessToken}`
+            }
+          const testReq = await axios.get('http://localhost:3000/auth/getRefreshToken',{headers})
+          console.log(auth,testReq);
+        } catch (error) {
+               console.log(error);
+        }
+      }
+
+// console.log(auth);
         const postsArray = allPosts.map(post => {
 
             return (
@@ -93,7 +141,6 @@ function HomeComponent() {
             console.log('handleApplauds', imageId);
         }
 
-        console.log(allPosts);
 
   return (
     <>
@@ -108,6 +155,8 @@ function HomeComponent() {
                     <div className="home--profile">
                         <img className='home--profile_img' src={profile} alt="profile" />
                         <p>Profile</p>
+                        <button type='button' onClick={()=> test()}>test</button>
+
                     </div>
                 </div>
                 <div className="two">

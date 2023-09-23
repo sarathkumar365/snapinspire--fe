@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthProvider';
 import { useFormik } from 'formik'
 import * as yup from 'yup';
-// import axios from 'axios';
-import api from '../API/api';
+import customAxios  from '../API/api';
+
 
 import ErrorComponent from './ErrorComponent';
 import img from '../resourses/images/3.webp'
+import axios from 'axios';
 
 
 function SigninComponent() {
@@ -23,8 +24,10 @@ function SigninComponent() {
   const handleSignin = async (userDetails) => {
 
     try {
-      // {withCredentials: true, credentials: 'include'}
-      const signinResponse = await api.post('/auth/login', userDetails)
+      // headers = {withCredentials: true, credentials: 'include'}
+      // const signinResponse = await customAxios.post('/auth/login', userDetails)
+      axios.defaults.withCredentials = true
+      const signinResponse = await axios.post('http://localhost:3000/auth/login', userDetails)
 
       // set auth state 
       if(signinResponse.status === 200){
@@ -122,24 +125,7 @@ function SigninComponent() {
 
   // console.log(auth);
 
-  const test = async() => {
-    console.log('test');
-    try {
-      const testReq = await api.get('/auth/getRefreshToken')
-      console.log(testReq);
-    } catch (error) {
-              if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
-        } 
-    }
-  }
+  
 
 
   return (
@@ -175,7 +161,6 @@ function SigninComponent() {
                 </div>
                 <div className="">
                   <button type='submit' className='submit--bttn'>SUBMIT</button>
-                  <button type='button' onClick={()=> test()}>test</button>
                 </div>
               {/* </div> */}
             </form>
