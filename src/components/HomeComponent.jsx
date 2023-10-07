@@ -18,6 +18,8 @@ import ErrorComponent from "./ErrorComponent"
 
 function HomeComponent() {
 
+    console.log('HOME COMP');
+
     const navigate = useNavigate();
 
     const [allPosts, setallPosts] = useState([])
@@ -43,6 +45,8 @@ function HomeComponent() {
         }
         
         const loadPosts = async () => {
+            console.log('load posts use')
+            console.log(`current auth token is ${auth.accessToken}`);
 
             try {
                 // test for axios interaction
@@ -51,6 +55,7 @@ function HomeComponent() {
                     console.log('request intercepted');
                     
                     if(!auth.accessToken) {
+                        console.log('No access token');
                         const newAccessToken = await getNewAccessToken()
                         console.log(newAccessToken);
                     } 
@@ -108,8 +113,8 @@ function HomeComponent() {
                 withCredentials:true,
                 authorization: `Bearer ${auth.accessToken}`
             }
-          const testReq = await axios.get('http://localhost:3000/auth/getRefreshToken',{headers})
-          console.log(auth,testReq);
+          const testReq = await axios.patch('http://localhost:3000/posts/64144752c1247880ba1bb7bb/1',{headers})
+          console.log(testReq);
         } catch (error) {
                console.log(error);
         }

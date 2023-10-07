@@ -18,7 +18,7 @@ function LandingPage() {
           <p className='landing--phrase__2'>Where high-quality, inspiring, and mysterious images await. Explore now and ignite your creativity.</p>
           <a href='/home' className="viewall">View All</a> 
         </section>
-        <section className='container--2 row'>
+        {/* <section className='container--2 row'>
           <div className="image--1 m-top--min bounce--up ">
             <img className='landing--image ' src={img} alt="image 1" />
           </div>
@@ -34,7 +34,7 @@ function LandingPage() {
           <div className="image--5 m-top--min bounce--up ">
             <img className='landing--image' src={img5} alt="image 5" />
           </div>
-        </section>
+        </section> */}
       </div>
     </>
     )
